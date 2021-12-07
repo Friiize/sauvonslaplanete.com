@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 public class FreezeEvent : MonoBehaviour
 {
     private int activate = 2;
-    [HideInInspector]
     public Tilemap tilemap;
+    public TileBase frozenTile;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +20,10 @@ public class FreezeEvent : MonoBehaviour
     {
         if (EventHandler.Instance.eventId == activate)
         {
+            Debug.Log("Gel activé");
             int looptimes = 0;
             Vector3Int v = new Vector3Int((int)UnityEngine.Random.Range(-7, 6), (int)UnityEngine.Random.Range(-4, 1), 0);
-            while (tilemap.GetTile(v) == null && tilemap.GetTile(v + Vector3Int.right) == null && tilemap.GetTile(v + Vector3Int.up) == null && tilemap.GetTile(v + Vector3Int.right + Vector3Int.up) == null && looptimes < 100)
+            while (tilemap.GetTile(v) == frozenTile && tilemap.GetTile(v + Vector3Int.right) == frozenTile && tilemap.GetTile(v + Vector3Int.up) == frozenTile && tilemap.GetTile(v + Vector3Int.right + Vector3Int.up) == frozenTile && looptimes < 100)
             {
                 v.x = (int)UnityEngine.Random.Range(-7, 6);
                 v.y = (int)UnityEngine.Random.Range(-4, 1);
@@ -30,10 +31,10 @@ public class FreezeEvent : MonoBehaviour
             }
             if (looptimes < 100)
             {
-                tilemap.SetTile(v + Vector3Int.right, null);
-                tilemap.SetTile(v + Vector3Int.up, null);
-                tilemap.SetTile(v + Vector3Int.up + Vector3Int.right, null);
-                tilemap.SetTile(v, null);
+                tilemap.SetTile(v + Vector3Int.right, frozenTile);
+                tilemap.SetTile(v + Vector3Int.up, frozenTile);
+                tilemap.SetTile(v + Vector3Int.up + Vector3Int.right, frozenTile);
+                tilemap.SetTile(v, frozenTile);
             }
             else
                 Debug.LogError("Zone non-gelée non trouvée.");
