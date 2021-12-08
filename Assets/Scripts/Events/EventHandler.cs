@@ -1,49 +1,56 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
-namespace DefaultNamespace
+public class EventHandler : MonoBehaviour
 {
-    public class EventHandler : MonoBehaviour
+    [HideInInspector]
+    public static EventHandler Instance;        
+    public float increase;
+    [HideInInspector]
+    public int eventId = 0;
+    public Tilemap tilemap;
+    public Tile healthyTile;
+    [HideInInspector]
+    public int nbTreeRows = 6;
+    [HideInInspector]
+    public int nbTreeColumns = 14;
+    public Arbre[,] allTree = new Arbre[6, 14];
+
+    private void Awake()
     {
-        [HideInInspector]
-        public static EventHandler Instance;        
-        public float increase;
-        public int eventId = 0;
-        public bool isGameEnded = false;
+        if (Instance) throw new NotImplementedException("Plus d'une fois le script dans la scène !");
+        Instance = this;
+    }
 
-
-        private void Awake()
+    private void Start()
+    {
+        for (int i = 0; i < nbTreeRows; i++)
         {
-            if (Instance) throw new NotImplementedException("Plus d'une fois le script dans la scène !");
-            Instance = this;
-        }
-
-        private void Start()
-        {
-            StartCoroutine(Coroutine());
-        }
-
-        private IEnumerator Coroutine()
-        {
-            while (!isGameEnded)
+            for (int j = 0; j < nbTreeColumns; j++)
             {
-                yield return new WaitForSeconds(increase);
-                NextEvent();
+                allTree[i, j] = new Arbre();
+                allTree[i, j].isBurning = false;
+                allTree[i, j].SetPos(j - 7, i - 4);
             }
         }
+        InvokeRepeating("NextEvent", 2f, 2f);
+    }
 
-        private void NextEvent()
-        {
-            eventId = Random.Range(0, 2);
-        }
+    private void NextEvent()
+    {
+        eventId = Random.Range(1, 3);
+    }
 
-        public void Stop()
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
-            isGameEnded = true;
+            Vector3Int tilemapPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            allTree[tilemapPos.y + 4, tilemapPos.x + 7].GetHit(tilemap, healthyTile);
         }
     }
 }
