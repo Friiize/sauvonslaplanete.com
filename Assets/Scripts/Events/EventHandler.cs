@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class EventHandler : MonoBehaviour
@@ -19,6 +18,7 @@ public class EventHandler : MonoBehaviour
     [HideInInspector]
     public int nbTreeColumns = 14;
     public Arbre[,] allTree = new Arbre[6, 14];
+    private bool isGameEnded = false;
 
     private void Awake()
     {
@@ -37,9 +37,17 @@ public class EventHandler : MonoBehaviour
                 allTree[i, j].SetPos(j - 7, i - 4);
             }
         }
-        InvokeRepeating("NextEvent", 2f, 2f);
+        StartCoroutine(Coroutine());
     }
 
+    private IEnumerator Coroutine()
+    {
+        while (!isGameEnded)
+        {
+            yield return new WaitForSeconds(increase);
+            NextEvent();
+        }
+    }
     private void NextEvent()
     {
         eventId = Random.Range(1, 3);
@@ -53,4 +61,10 @@ public class EventHandler : MonoBehaviour
             allTree[tilemapPos.y + 4, tilemapPos.x + 7].GetHit(tilemap, healthyTile);
         }
     }
+    
+    public void Stop()
+    {
+        isGameEnded = true;
+    }
 }
+

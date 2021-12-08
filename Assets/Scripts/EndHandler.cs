@@ -1,16 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-namespace DefaultNamespace
+public class EndHandler : MonoBehaviour
 {
-    public class EndHandler : MonoBehaviour
+    private void Update()
     {
-        private void Update()
+        if (MeteoHandler.Instance.increment == 50)
         {
-            if (MeteoHandler.Instance.increment == 50)
-            {
-                EventHandler.Instance.Stop();
-            }
+            EventHandler.Instance.Stop();
         }
     }
 }
