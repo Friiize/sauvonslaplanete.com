@@ -23,7 +23,7 @@ public class FreezeEvent : MonoBehaviour
                 looptimes++;
             }
             if (!hasFrozen)
-                Debug.LogError("Zone non-gelée non trouvée.");
+                Debug.LogError("Zone non-gelÃ©e non trouvÃ©e.");
             EventHandler.Instance.eventId = 0;
         }
     }

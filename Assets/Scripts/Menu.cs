@@ -11,10 +11,15 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void ChangeVolume()
+    {
+        
+    }
     //quit the application
     public void QuitGame()
     {
         Debug.Log("Quit");
         Application.Quit();
     }
+    
 }

@@ -17,6 +17,7 @@ public class Fire : MonoBehaviour
         if (EventHandler.Instance.eventId == 1)
         {
             Vector3Int location = new Vector3Int((int)UnityEngine.Random.Range(-7, 7), (int)UnityEngine.Random.Range(-4, 2), 0);
+            
             SetFire(location);
             EventHandler.Instance.eventId = 0;
         }
@@ -49,29 +50,84 @@ public class Fire : MonoBehaviour
 
     IEnumerator spreadFire(float delayTime, Arbre a_burningTree)
     {
+
         yield return new WaitForSeconds(delayTime);
+        
         if (a_burningTree.isBurning)
         {
-            if (a_burningTree.GetPos().x + 7 > 0)
+            bool fireSpread = false;
+            int spreadPossibility = 4;
+            int randomSpread = UnityEngine.Random.Range(0, 4);
+            while (fireSpread == false && spreadPossibility >0)
             {
-                SetFire(a_burningTree.GetPos() + Vector3Int.left);
-                Debug.Log("left treeburned by tree at pos" + a_burningTree.GetPos());
+                
+                switch (randomSpread)
+                {
+                    case 0:
+                        if (a_burningTree.GetPos().x + 7 > 0)
+                        {
+                            if (EventHandler.Instance.allTree[a_burningTree.GetPos().y+4,a_burningTree.GetPos().x+6].isHealthy)
+                            {
+                                SetFire(a_burningTree.GetPos() + Vector3Int.left);
+                                fireSpread = true;
+                                Debug.Log("left treeburned by tree at pos" + a_burningTree.GetPos());
+                            }
+                            else
+                            {
+                                spreadPossibility--;
+                            }
+                            
+                        }
+                        break;
+                    case 1:
+                        if (a_burningTree.GetPos().x + 7 < EventHandler.Instance.nbTreeColumns - 1)
+                        {
+                            if (EventHandler.Instance.allTree[a_burningTree.GetPos().y + 4, a_burningTree.GetPos().x + 8].isHealthy)
+                            {
+                                SetFire(a_burningTree.GetPos() + Vector3Int.right);
+                                fireSpread = true;
+                                Debug.Log("right treeburned by tree at pos" + a_burningTree.GetPos());
+                            }
+                            else
+                            {
+                                spreadPossibility--;
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (a_burningTree.GetPos().y + 4 > 0)
+                        {
+                            if (EventHandler.Instance.allTree[a_burningTree.GetPos().y +3, a_burningTree.GetPos().x +7].isHealthy)
+                            {
+                                SetFire(a_burningTree.GetPos() + Vector3Int.down);
+                                fireSpread = true;
+                                Debug.Log("down treeburned by tree at pos" + a_burningTree.GetPos());
+                            }
+                            else
+                            {
+                                spreadPossibility--;
+                            }
+                        }
+                        break;
+                    case 3:
+                        if (a_burningTree.GetPos().y + 4 < EventHandler.Instance.nbTreeRows - 1)
+                        {
+                            if (EventHandler.Instance.allTree[a_burningTree.GetPos().y + 5, a_burningTree.GetPos().x + 7].isHealthy)
+                            {
+                                SetFire(a_burningTree.GetPos() + Vector3Int.up);
+                                Debug.Log("up treeburned by tree at pos" + a_burningTree.GetPos());
+                                fireSpread = true;
+                            }
+                            {
+                                spreadPossibility--;
+                            }
+                        }
+                        break;
+                }
+
+                randomSpread = UnityEngine.Random.Range(0, 4);
             }
-            if (a_burningTree.GetPos().x + 7 < EventHandler.Instance.nbTreeColumns - 1)
-            {
-                SetFire(a_burningTree.GetPos() + Vector3Int.right);
-                Debug.Log("right treeburned by tree at pos" + a_burningTree.GetPos());
-            }
-            if (a_burningTree.GetPos().y + 4 > 0)
-            {
-                SetFire(a_burningTree.GetPos() + Vector3Int.down);
-                Debug.Log("down treeburned by tree at pos" + a_burningTree.GetPos());
-            }
-            if (a_burningTree.GetPos().y + 4 < EventHandler.Instance.nbTreeRows - 1)
-            {
-                SetFire(a_burningTree.GetPos() + Vector3Int.up);
-                Debug.Log("up treeburned by tree at pos" + a_burningTree.GetPos());
-            }
+            
             a_burningTree.isSpreading = true;
         }
     }
