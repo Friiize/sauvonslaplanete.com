@@ -6,12 +6,12 @@ public class MeteoHandler : MonoBehaviour
 {
 
     public GameObject temperature;
-    private int increment = 0;
+    private float increment = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("incrementation", 2f, 2f);
+        InvokeRepeating("incrementation", 2f, 1f);
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class MeteoHandler : MonoBehaviour
     {
         if (increment < 5)
         {
-            increment++;
+            increment = Mathf.Round(increment * 10 + 1) / 10;
             temperature.GetComponent<UnityEngine.UI.Text>().text = increment + "°C";
         }
         else if (increment > 5)

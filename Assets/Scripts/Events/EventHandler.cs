@@ -10,9 +10,15 @@ public class EventHandler : MonoBehaviour
     [HideInInspector]
     public static EventHandler Instance;        
     public float increase;
+    [HideInInspector]
     public int eventId = 0;
     public Tilemap tilemap;
-    public TileBase healthyTile;
+    public Tile healthyTile;
+    [HideInInspector]
+    public int nbTreeRows = 6;
+    [HideInInspector]
+    public int nbTreeColumns = 14;
+    public Arbre[,] allTree = new Arbre[6, 14];
 
     private void Awake()
     {
@@ -22,12 +28,21 @@ public class EventHandler : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("NextEvent", 2f, increase);
+        for (int i = 0; i < nbTreeRows; i++)
+        {
+            for (int j = 0; j < nbTreeColumns; j++)
+            {
+                allTree[i, j] = new Arbre();
+                allTree[i, j].isBurning = false;
+                allTree[i, j].SetPos(j - 7, i - 4);
+            }
+        }
+        InvokeRepeating("NextEvent", 2f, 2f);
     }
 
     private void NextEvent()
     {
-        eventId = Random.Range(1, 2);
+        eventId = Random.Range(1, 3);
     }
 
     private void Update()
@@ -35,7 +50,7 @@ public class EventHandler : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3Int tilemapPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            tilemap.SetTile(tilemapPos, healthyTile);
+            allTree[tilemapPos.y + 4, tilemapPos.x + 7].GetHit(tilemap, healthyTile);
         }
     }
 }

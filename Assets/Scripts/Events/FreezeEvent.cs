@@ -8,37 +8,46 @@ public class FreezeEvent : MonoBehaviour
     private int activate = 2;
     public Tilemap tilemap;
     public TileBase frozenTile;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    public int addedHitPoints = 3;
 
     // Update is called once per frame
     void Update()
     {
         if (EventHandler.Instance.eventId == activate)
         {
-            Debug.Log("Gel activé");
             int looptimes = 0;
-            Vector3Int v = new Vector3Int((int)UnityEngine.Random.Range(-7, 6), (int)UnityEngine.Random.Range(-4, 1), 0);
-            while (tilemap.GetTile(v) == frozenTile && tilemap.GetTile(v + Vector3Int.right) == frozenTile && tilemap.GetTile(v + Vector3Int.up) == frozenTile && tilemap.GetTile(v + Vector3Int.right + Vector3Int.up) == frozenTile && looptimes < 100)
+            bool hasFrozen = false;
+            while (!hasFrozen && looptimes < 100)
             {
-                v.x = (int)UnityEngine.Random.Range(-7, 6);
-                v.y = (int)UnityEngine.Random.Range(-4, 1);
+                hasFrozen = FreezeTiles();
                 looptimes++;
             }
-            if (looptimes < 100)
-            {
-                tilemap.SetTile(v + Vector3Int.right, frozenTile);
-                tilemap.SetTile(v + Vector3Int.up, frozenTile);
-                tilemap.SetTile(v + Vector3Int.up + Vector3Int.right, frozenTile);
-                tilemap.SetTile(v, frozenTile);
-            }
-            else
+            if (!hasFrozen)
                 Debug.LogError("Zone non-gelée non trouvée.");
             EventHandler.Instance.eventId = 0;
         }
+    }
+
+    bool FreezeTiles()
+    {
+        bool hasFrozen = false;
+        int x = (int)Random.Range(0, EventHandler.Instance.nbTreeColumns - 2);
+        int y = (int)Random.Range(0, EventHandler.Instance.nbTreeRows - 2);
+        hasFrozen = FreezeTile(x, y);
+        hasFrozen = FreezeTile(x + 1, y);
+        hasFrozen = FreezeTile(x, y + 1);
+        hasFrozen = FreezeTile(x + 1, y + 1);
+        return hasFrozen;
+    }
+
+    bool FreezeTile(int x, int y)
+    {
+        if (EventHandler.Instance.allTree[y, x].isHealthy)
+        {
+            EventHandler.Instance.allTree[y, x].SetUnhealthy(addedHitPoints);
+            tilemap.SetTile(EventHandler.Instance.allTree[y, x].GetPos(), frozenTile);
+            return true;
+        }
+        return false;
     }
 }
