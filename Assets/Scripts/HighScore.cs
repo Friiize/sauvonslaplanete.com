@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class HighScore : MonoBehaviour
 {
-     public GameObject HighScore1, HighScore2, HighScore3, HighScore4, HighScore5;
+    public GameObject HighScore1, HighScore2, HighScore3, HighScore4, HighScore5;
 
-     public static int bestscore;
+    public static int bestscore;
     float[] scoreTab = new float[5];
     float timespend, score;
     // Start is called before the first frame update

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,16 @@ public class MeteoHandler : MonoBehaviour
 {
 
     public GameObject temperature;
-    private int increment = 0;
-
+    public int increment = 0;
+    [HideInInspector] 
+    public static MeteoHandler Instance;
+    
+    private void Awake()
+    {
+        if (Instance) throw new NotImplementedException("Plus d'une fois le script dans la sc√®ne !");
+        Instance = this;
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +34,7 @@ public class MeteoHandler : MonoBehaviour
         if (increment < 5)
         {
             increment++;
-            temperature.GetComponent<UnityEngine.UI.Text>().text = increment + "∞C";
+            temperature.GetComponent<UnityEngine.UI.Text>().text = increment + "ÔøΩC";
         }
         else if (increment > 5)
             increment = 5;
