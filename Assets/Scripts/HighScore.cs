@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,25 +9,22 @@ public class HighScore : MonoBehaviour
 
     public static int bestscore;
     float[] scoreTab = new float[5];
-    float timespend, score;
-    // Start is called before the first frame update
-    void Start()
-    {    
+    float score;
 
-        
-        
+    [HideInInspector] 
+    
+    public static HighScore Instance;
+    
+    private void Awake()
+    {
+        if (Instance) throw new NotImplementedException("Plus d'une fois le script dans la scène !");
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        timespend = Time.time;
-       // Debug.Log(timespend);
-    }
-    public void SetHighScore()
+    public void SetHighScore(float currentScore)
     {
 
-        score = timespend;
+        score = currentScore;
         if (score >float.Parse(HighScore1.GetComponent<Text>().text))
         {
             scoreTab[4] = scoreTab[3];

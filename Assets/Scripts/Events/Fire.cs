@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class Fire : MonoBehaviour
 {
     private int activate = 1;
     public Tilemap tilemap;
     public Tile tile;
-    public float time = 3f;
+    public float time = 0;
     public int addedHitPoints = 3;
 
     // Update is called once per frame
@@ -18,7 +19,7 @@ public class Fire : MonoBehaviour
         if (EventHandler.Instance.eventId == activate)
         {
             Vector3Int location = new Vector3Int((int)UnityEngine.Random.Range(-7, 7), (int)UnityEngine.Random.Range(-4, 2), 0);
-            
+            time = Random.Range(3f, 10f);
             SetFire(location);
             EventHandler.Instance.eventId = 0;
         }

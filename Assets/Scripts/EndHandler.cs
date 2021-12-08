@@ -9,6 +9,7 @@ public class EndHandler : MonoBehaviour
         {
             EventHandler.Instance.Stop();
             Time.timeScale = 0;
+            HighScore.Instance.SetHighScore(EventHandler.Instance.score);
         }
     }
 }

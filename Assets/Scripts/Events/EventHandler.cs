@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 using UnityEngine.Tilemaps;
 
 public class EventHandler : MonoBehaviour
 {
     public static EventHandler Instance;
-
+    public float score = 0;
+    public GameObject text;
+    
     [HideInInspector]
     public int eventId = 0;
     public float spawnRate = 1;
@@ -22,6 +25,7 @@ public class EventHandler : MonoBehaviour
     [HideInInspector]
     public int nbTreeColumns = 14;
     public Arbre[,] allTree = new Arbre[6, 14];
+    
 
     private void Awake()
     {
@@ -43,6 +47,15 @@ public class EventHandler : MonoBehaviour
         StartCoroutine(Coroutine());
     }
 
+    private void FixedUpdate()
+    {
+        if (!isGameEnded)
+        {
+            score++;
+            text.GetComponent<UnityEngine.UI.Text>().text = "Score : " + score;
+        }
+    }
+
     private IEnumerator Coroutine()
     {
         while (!isGameEnded)
@@ -55,12 +68,12 @@ public class EventHandler : MonoBehaviour
 
     private void NextEvent()
     {
-        eventId = 2;
+        eventId = Random.Range(1,3);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isGameEnded)
         {
             Vector3Int tilemapPos = tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             if (tilemapPos.x < 7 && tilemapPos.x > -8 && tilemapPos.y < 2 && tilemapPos.y > -5)

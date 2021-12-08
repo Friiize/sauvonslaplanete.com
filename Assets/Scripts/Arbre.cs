@@ -21,6 +21,7 @@ public class Arbre : MonoBehaviour
     {
         if (--hitPoints <= 0)
         {
+            EventHandler.Instance.score += 1;
             hitPoints = 0;
             isHealthy = true;
             isBurning = false;
