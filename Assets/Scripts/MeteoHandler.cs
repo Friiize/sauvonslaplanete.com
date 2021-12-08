@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class MeteoHandler : MonoBehaviour
 {
-
-    public GameObject temperature;
-    public int increment = 0;
-    [HideInInspector] 
     public static MeteoHandler Instance;
+
+    public GameObject text;
+    public float temperature = 0;
     
     private void Awake()
     {
@@ -20,23 +19,21 @@ public class MeteoHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("incrementation", 2f, 2f);
+        StartCoroutine(incrementation());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator incrementation()
     {
-
-    }
-
-    void incrementation()
-    {
-        if (increment < 5)
+        while (!EventHandler.Instance.isGameEnded)
         {
-            increment++;
-            temperature.GetComponent<UnityEngine.UI.Text>().text = increment + "�C";
+            yield return new WaitForSeconds(Mathf.Round(5 * EventHandler.Instance.GetHealthyTrees() * 10 / 84) / 10);
+            /*if (temperature < 5)
+            {*/
+                temperature = Mathf.Round(temperature * 10 + 1) / 10;
+                text.GetComponent<UnityEngine.UI.Text>().text = "+" + temperature + "°C";
+            //}
+            /*else if (temperature > 5)
+                temperature = 5;*/
         }
-        else if (increment > 5)
-            increment = 5;
     }
 }

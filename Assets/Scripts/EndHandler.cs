@@ -5,9 +5,10 @@ public class EndHandler : MonoBehaviour
 {
     private void Update()
     {
-        if (MeteoHandler.Instance.increment == 50)
+        if (EventHandler.Instance.GetHealthyTrees() == 0)
         {
             EventHandler.Instance.Stop();
+            Time.timeScale = 0;
         }
     }
 }

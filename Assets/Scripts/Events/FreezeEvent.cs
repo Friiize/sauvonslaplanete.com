@@ -8,22 +8,16 @@ public class FreezeEvent : MonoBehaviour
     private int activate = 2;
     public Tilemap tilemap;
     public TileBase frozenTile;
-    public int addedHitPoints = 3;
+    public int addedHitPoints = 1;
 
     // Update is called once per frame
     void Update()
     {
         if (EventHandler.Instance.eventId == activate)
         {
-            int looptimes = 0;
             bool hasFrozen = false;
-            while (!hasFrozen && looptimes < 100)
-            {
+            while (!hasFrozen && EventHandler.Instance.GetHealthyTrees() > 0)
                 hasFrozen = FreezeTiles();
-                looptimes++;
-            }
-            if (!hasFrozen)
-                Debug.LogError("Zone non-gelée non trouvée.");
             EventHandler.Instance.eventId = 0;
         }
     }
@@ -31,12 +25,12 @@ public class FreezeEvent : MonoBehaviour
     bool FreezeTiles()
     {
         bool hasFrozen = false;
-        int x = (int)Random.Range(0, EventHandler.Instance.nbTreeColumns - 2);
-        int y = (int)Random.Range(0, EventHandler.Instance.nbTreeRows - 2);
+        int x = (int)Random.Range(0, EventHandler.Instance.nbTreeColumns - 1);
+        int y = (int)Random.Range(0, EventHandler.Instance.nbTreeRows - 1);
         hasFrozen = FreezeTile(x, y);
-        hasFrozen = FreezeTile(x + 1, y);
-        hasFrozen = FreezeTile(x, y + 1);
-        hasFrozen = FreezeTile(x + 1, y + 1);
+        hasFrozen = FreezeTile(x + 1, y) || hasFrozen;
+        hasFrozen = FreezeTile(x, y + 1) || hasFrozen;
+        hasFrozen = FreezeTile(x + 1, y + 1) || hasFrozen;
         return hasFrozen;
     }
 

@@ -6,15 +6,16 @@ using UnityEngine.Tilemaps;
 
 public class Fire : MonoBehaviour
 {
+    private int activate = 1;
     public Tilemap tilemap;
     public Tile tile;
-    public float time = 2f;
+    public float time = 3f;
     public int addedHitPoints = 3;
 
     // Update is called once per frame
     void Update()
     {
-        if (EventHandler.Instance.eventId == 1)
+        if (EventHandler.Instance.eventId == activate)
         {
             Vector3Int location = new Vector3Int((int)UnityEngine.Random.Range(-7, 7), (int)UnityEngine.Random.Range(-4, 2), 0);
             

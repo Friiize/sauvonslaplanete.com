@@ -15,6 +15,7 @@ public class Menu : MonoBehaviour
     {
         
     }
+
     //quit the application
     public void QuitGame()
     {
