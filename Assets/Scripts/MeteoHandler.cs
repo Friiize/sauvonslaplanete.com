@@ -5,16 +5,8 @@ using UnityEngine;
 
 public class MeteoHandler : MonoBehaviour
 {
-    public static MeteoHandler Instance;
-
     public GameObject text;
     public float temperature = 0;
-    
-    private void Awake()
-    {
-        if (Instance) throw new NotImplementedException("Plus d'une fois le script dans la scène !");
-        Instance = this;
-    }
     
     // Start is called before the first frame update
     void Start()

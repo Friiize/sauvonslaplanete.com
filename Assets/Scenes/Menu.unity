@@ -1098,7 +1098,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1403659547}
         m_TargetAssemblyTypeName: HighScore, Assembly-CSharp
-        m_MethodName: SetHighScore
+        m_MethodName: ShowHighScores
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1926,11 +1926,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17dbea5e935cbe14794102cfec11a418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HighScore1: {fileID: 144583103}
-  HighScore2: {fileID: 349686555}
-  HighScore3: {fileID: 1803675411}
-  HighScore4: {fileID: 551647960}
-  HighScore5: {fileID: 841225448}
+  highScores:
+  - {fileID: 144583103}
+  - {fileID: 349686555}
+  - {fileID: 1803675411}
+  - {fileID: 551647960}
+  - {fileID: 841225448}
 --- !u!1 &1452502596
 GameObject:
   m_ObjectHideFlags: 0

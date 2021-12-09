@@ -27,19 +27,20 @@ public class FreezeEvent : MonoBehaviour
         bool hasFrozen = false;
         int x = (int)Random.Range(0, EventHandler.Instance.nbTreeColumns - 1);
         int y = (int)Random.Range(0, EventHandler.Instance.nbTreeRows - 1);
-        hasFrozen = FreezeTile(x, y);
-        hasFrozen = FreezeTile(x + 1, y) || hasFrozen;
-        hasFrozen = FreezeTile(x, y + 1) || hasFrozen;
-        hasFrozen = FreezeTile(x + 1, y + 1) || hasFrozen;
+        hasFrozen = FreezeTile(EventHandler.Instance.allTree[y, x]);
+        hasFrozen = FreezeTile(EventHandler.Instance.allTree[y + 1, x]) || hasFrozen;
+        hasFrozen = FreezeTile(EventHandler.Instance.allTree[y, x + 1]) || hasFrozen;
+        hasFrozen = FreezeTile(EventHandler.Instance.allTree[y + 1, x + 1]) || hasFrozen;
         return hasFrozen;
     }
 
-    bool FreezeTile(int x, int y)
+    bool FreezeTile(Arbre target)
     {
-        if (EventHandler.Instance.allTree[y, x].isHealthy)
+        if (target.isHealthy)
         {
-            EventHandler.Instance.allTree[y, x].SetUnhealthy(addedHitPoints);
-            tilemap.SetTile(EventHandler.Instance.allTree[y, x].GetPos(), frozenTile);
+            target.SetUnhealthy(addedHitPoints);
+            tilemap.SetTile(target.GetPos(), frozenTile);
+			Debug.Log("Tree freezed at " + target.GetPos());
             return true;
         }
         return false;

@@ -8,6 +8,7 @@ public class Menu : MonoBehaviour
     //load next level
     public void LoadNextLevel()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

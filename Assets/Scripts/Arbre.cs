@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Arbre : MonoBehaviour
+public class Arbre //: MonoBehaviour
 {
     public bool isHealthy = true;
     public bool isBurning = false;
@@ -19,13 +19,17 @@ public class Arbre : MonoBehaviour
 
     public void GetHit(Tilemap tilemap, Tile tile)
     {
-        if (--hitPoints <= 0)
+        if (hitPoints > 0)
         {
+            hitPoints--;
             EventHandler.Instance.score += 1;
-            hitPoints = 0;
-            isHealthy = true;
-            isBurning = false;
-            tilemap.SetTile(treePos, tile);
+            if (hitPoints == 0)
+            {
+                Debug.Log("Tree Healed at " + treePos);
+                isHealthy = true;
+                isBurning = false;
+                tilemap.SetTile(treePos, tile);
+            }
         }
     }
 
