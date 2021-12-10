@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 public class EventHandler : MonoBehaviour
 {
     public static EventHandler Instance;
-    public int score = 0;
+    public double score = 0;
     public GameObject text;
     
     [HideInInspector]
@@ -51,9 +51,9 @@ public class EventHandler : MonoBehaviour
     private void FixedUpdate()
     {
         if (!isGameEnded)
-        {
-            score++;
-            text.GetComponent<UnityEngine.UI.Text>().text = "Score : " + score;
+        {            
+            score+=0.1;
+            text.GetComponent<UnityEngine.UI.Text>().text = "Score : " + (int)score;
         }
     }
 

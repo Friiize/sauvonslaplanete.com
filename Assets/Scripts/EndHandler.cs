@@ -16,7 +16,7 @@ public class EndHandler : MonoBehaviour
         if (EventHandler.Instance.GetHealthyTrees() == 0 && !EventHandler.Instance.isGameEnded)
         {
             EventHandler.Instance.Stop();
-            highScore.SetHighScore(EventHandler.Instance.score);
+            highScore.SetHighScore((int)EventHandler.Instance.score);
             scoreBoard.SetActive(true);
             Time.timeScale = 0;
         }
