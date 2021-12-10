@@ -91,7 +91,48 @@ public class EventHandler : MonoBehaviour
                     healthyTrees++;
         return healthyTrees;
     }
-    
+
+    public bool AreBurningTrees()
+    {
+        for (int i = 0; i < nbTreeRows; i++)
+            for (int j = 0; j < nbTreeColumns; j++)
+                if (allTree[i, j].isBurning)
+                    return true;
+        return false;
+    }
+
+    public bool AreFrozenTrees()
+    {
+        for (int i = 0; i < nbTreeRows; i++)
+            for (int j = 0; j < nbTreeColumns; j++)
+                if (allTree[i, j].isFrozen)
+                    return true;
+        return false;
+    }
+
+    public void SetBiodiversitySound()
+    {
+        int healthyTrees = GetHealthyTrees();
+        if (healthyTrees > 63)
+        {
+            AudioManager.Instance.Stop("Biodiversité-Moyenne");
+            AudioManager.Instance.Play("Biodiversité-Haute");
+        }
+        else if (healthyTrees > 42)
+        {
+            AudioManager.Instance.Stop("Biodiversité-Faible");
+            AudioManager.Instance.Stop("Biodiversité-Haute");
+            AudioManager.Instance.Play("Biodiversité-Moyenne");
+        }
+        else if (healthyTrees > 21)
+        {
+            AudioManager.Instance.Stop("Biodiversité-Moyenne");
+            AudioManager.Instance.Play("Biodiversité-Faible");
+        }
+        else
+            AudioManager.Instance.Stop("Biodiversité-Faible");
+    }
+
     public void Stop()
     {
         isGameEnded = true;
