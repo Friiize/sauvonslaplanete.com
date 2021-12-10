@@ -18,6 +18,13 @@ public class FreezeEvent : MonoBehaviour
             bool hasFrozen = false;
             while (!hasFrozen && EventHandler.Instance.GetHealthyTrees() > 0)
                 hasFrozen = FreezeTiles();
+            if (hasFrozen)
+            {
+                AudioManager.Instance.Play("Propage-Glace");
+                if (!EventHandler.Instance.AreFrozenTrees())
+                    AudioManager.Instance.Play("Son-Glace");
+                EventHandler.Instance.SetBiodiversitySound();
+            }
             EventHandler.Instance.eventId = 0;
         }
     }
@@ -38,6 +45,7 @@ public class FreezeEvent : MonoBehaviour
     {
         if (target.isHealthy)
         {
+            target.isFrozen = true;
             target.SetUnhealthy(addedHitPoints);
             tilemap.SetTile(target.GetPos(), frozenTile);
 			Debug.Log("Tree freezed at " + target.GetPos());

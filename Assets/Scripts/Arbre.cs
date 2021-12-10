@@ -7,6 +7,7 @@ public class Arbre //: MonoBehaviour
 {
     public bool isHealthy = true;
     public bool isBurning = false;
+    public bool isFrozen = false;
     public bool isSpreading = false;
     private int hitPoints = 0;
     private Vector3Int treePos;
@@ -23,12 +24,28 @@ public class Arbre //: MonoBehaviour
         {
             hitPoints--;
             EventHandler.Instance.score += 1;
+            if (isBurning)
+                AudioManager.Instance.Play("Tap-Feu");
+            else if (isFrozen)
+                AudioManager.Instance.Play("Tap-Glace");
             if (hitPoints == 0)
             {
                 Debug.Log("Tree Healed at " + treePos);
                 isHealthy = true;
-                isBurning = false;
                 tilemap.SetTile(treePos, tile);
+                if (isBurning)
+                {
+                    isBurning = false;
+                    if (!EventHandler.Instance.AreBurningTrees())
+                        AudioManager.Instance.Stop("Son-Feu");
+                }
+                else if (isFrozen)
+                {
+                    isFrozen = false;
+                    if (!EventHandler.Instance.AreFrozenTrees())
+                        AudioManager.Instance.Stop("Son-Glace");
+                }
+                EventHandler.Instance.SetBiodiversitySound();
             }
         }
     }

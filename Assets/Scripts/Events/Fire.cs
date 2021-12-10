@@ -42,10 +42,14 @@ public class Fire : MonoBehaviour
         Debug.Log("Burned tree at " + position);
         if (EventHandler.Instance.allTree[position.y + 4, position.x + 7].isHealthy)
         {
+            AudioManager.Instance.Play("Propage-Feu");
+            if (EventHandler.Instance.AreBurningTrees())
+                AudioManager.Instance.Play("Son-Feu");
             tilemap.SetTile(position, tile);
             EventHandler.Instance.allTree[position.y + 4, position.x + 7].isBurning = true;
             EventHandler.Instance.allTree[position.y + 4, position.x + 7].SetUnhealthy(addedHitPoints);
             EventHandler.Instance.allTree[position.y + 4, position.x + 7].isSpreading = true;
+            EventHandler.Instance.SetBiodiversitySound();
         }
     }
 
