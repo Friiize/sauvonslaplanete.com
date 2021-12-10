@@ -8,14 +8,15 @@ public class HighScore : MonoBehaviour
 {
     public GameObject[] highScores = new GameObject[5];
 
-    private static int[] scoreTab = new int[5];
-    private int score;
+    private static double[] scoreTab = new double[5];
+    private double score;
 
-    public void SetHighScore(int currentScore)
+    public void SetHighScore(double currentScore)
     {
         score = currentScore;
         int i = 0;
         bool updated = false;
+        
         while (i < 5 && !updated)
         {
             if (score > scoreTab[i])
